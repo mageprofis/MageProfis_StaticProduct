@@ -6,14 +6,14 @@ Product.StaticCache = Class.create();
 Product.StaticCache.prototype = {
     initialize: function(config){
         var product_id = parseInt(config.product_id, 10);
+        var messages = $('messages_product_view');
+        if (messages) {
+            messages.innerHTML = '';
+        }
         new Ajax.Request(config.url, {
             parameters: {product_id: product_id},
             onSuccess: function(response) {
                 var product = response.responseText.evalJSON();
-                var messages = $('messages_product_view');
-                if (messages) {
-                    messages.innerHTML = '';
-                }
                 product.items.forEach(function(e) {
                     if(e.content != '' && e.content != '&nbsp;') {
                         var element = $$(e.class)[0];
