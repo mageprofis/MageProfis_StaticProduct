@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MageProfis_StaticProduct>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Checkout />
+            </depends>
+        </MageProfis_StaticProduct>
+    </modules>
+</config>

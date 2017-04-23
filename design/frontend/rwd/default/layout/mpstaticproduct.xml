@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<layout version="0.1.0">
+    <catalog_product_view>
+        <reference name="content">
+            <block type="mpstaticproduct/product_js" name="mpstaticproduct.product.js" />
+        </reference>
+    </catalog_product_view>
+    <mpstaticproduct_ajax_index>
+        <block type="mpstaticproduct/json_list" name="root" output="toHtml">
+            <block type="checkout/cart_minicart" name="minicart_head" as=".header-minicart" template="checkout/cart/minicart.phtml" before="-">
+                <action method="setItemType"><type>html</type></action>
+                <block type="checkout/cart_sidebar" name="minicart_content" template="checkout/cart/minicart/items.phtml">
+                    <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/cart/minicart/default.phtml</template></action>
+                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/minicart/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/minicart/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/minicart/default.phtml</template></action>
+
+                    <block type="core/text_list" name="cart_sidebar.cart_promotion" as="cart_promotion" translate="label" module="checkout">
+                        <label>Mini-cart promotion block</label>
+                    </block>
+                    <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+                        <label>Shopping Cart Sidebar Extra Actions</label>
+                    </block>
+                </block>
+            </block>
+            <block type="mpstaticproduct/json_price" name="json.product.price" as=".price-info">
+                <action method="setItemType"><type>html</type></action>
+            </block>
+            <block type="core/text_list" name="json.product.message" as="#messages_product_view">
+                <action method="setItemType"><type>html</type></action>
+                <block type="core/messages" name="global_messages" as="global_messages"/>
+                <block type="core/messages" name="messages" as="messages"/>
+            </block>
+            <block type="page/html_breadcrumbs" name="breadcrumbs" as=".breadcrumbs" template="page/html/breadcrumbs.phtml">
+                <action method="setItemType"><type>replace</type></action>
+            </block>
+            <block type="mpstaticproduct/json_breadcrumbs" name="json.product.breadcrumbs" as=".breadcrumbs">
+                <action method="setItemType"><type>hide</type></action>
+            </block>
+            <block type="mpstaticproduct/json_wishlistlink" name="json.link-wishlist" as=".link-wishlist">
+                <action method="setItemType"><type>attribute</type></action>
+                <action method="setAttributeName"><type>href</type></action>
+            </block>
+            <block type="mpstaticproduct/json_comparelink" name="json.link-compare" as=".link-compare">
+                <action method="setItemType"><type>attribute</type></action>
+                <action method="setAttributeName"><type>href</type></action>
+            </block>
+        </block>
+    </mpstaticproduct_ajax_index>
+</layout>
