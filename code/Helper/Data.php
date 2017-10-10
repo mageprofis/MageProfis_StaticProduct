@@ -83,9 +83,8 @@ extends Mage_Core_Helper_Abstract
     public function getCurrentCategory()
     {
         $lastId = (int) Mage::getSingleton('catalog/session')->getLastVisitedCategoryId();
-        if ($lastId > 0 && !$this->_categorie)
+        if ($lastId > 0 && !$this->_categorie && in_array($lastId, $this->getCategories()))
         {
-            
             $category = Mage::getModel('catalog/category')->getCollection()
                     ->addAttributeToSelect(array('name'))
                     ->addAttributeToFilter('entity_id', $lastId)
@@ -96,7 +95,7 @@ extends Mage_Core_Helper_Abstract
             $this->_categorie = $category;
             Mage::register('category', $category, true);
             Mage::register('current_category', $category, true);
-            return $category;
+            $this->_categorie = $category;
         }
         if ($this->_categorie instanceof Mage_Catalog_Model_Category)
         {
