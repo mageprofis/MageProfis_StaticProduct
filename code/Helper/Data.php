@@ -69,7 +69,7 @@ extends Mage_Core_Helper_Abstract
             {
                 $sql = $this->_getConnection()
                         ->select()
-                        ->from($this->getTableName('catalog_category_product'), array('category_id'))
+                        ->from($this->getTableName('catalog_category_product_index'), array('category_id'))
                         ->where('product_id = ?', $id)
                 ;
                 $result = $this->_getConnection()->fetchCol($sql);
