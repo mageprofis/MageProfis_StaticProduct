@@ -5,6 +5,7 @@ extends Mage_Core_Helper_Abstract
 {
 
     protected $_product = null;
+    protected $_category = null;
     protected $_categorie = null;
     protected $_categorieIds = null;
 
@@ -52,6 +53,15 @@ extends Mage_Core_Helper_Abstract
             return new Varien_Object();
         }
         return $this->_product;
+    }
+    
+    public function getCategory($id)
+    {
+        if (!$this->_category)
+        {
+            $this->_category = Mage::getModel('catalog/category')->load($id);
+        }
+        return $this->_category;
     }
 
     /**
@@ -103,7 +113,42 @@ extends Mage_Core_Helper_Abstract
         }
         return new Varien_Object();
     }
+    
+    public function deleteCacheForProductId($id)
+    {
+        $collection = Mage::getModel('mpstaticproduct/cache')->getCollection();
+        $collection->addFieldToFilter('object_id', $id);
+        $collection->addFieldToFilter('object_type', 'product');
+        foreach ($collection as $_cache)
+        {
+            $_cache->delete();
+        }
+        
+        return;
+    }
+    
+    public function deleteCacheForCategoryId($id)
+    {
+        $collection = Mage::getModel('mpstaticproduct/cache')->getCollection();
+        $collection->addFieldToFilter('object_id', $id);
+        $collection->addFieldToFilter('object_type', 'category');
+        foreach ($collection as $_cache)
+        {
+            $_cache->delete();
+        }
+        
+        return;
+    }
+    
+    public function isProductCacheActive()
+    {
+        return Mage::getStoreConfig('staticcache/general/product_active');
+    }
 
+    public function isCategoryCacheActive()
+    {
+        return Mage::getStoreConfig('staticcache/general/category_active');
+    }
 
     /**
      * 

@@ -2,3 +2,4 @@ MageProfis_StaticProduct.xml                            app/etc/modules/MageProf
 code                                                    app/code/community/MageProfis/StaticProduct
 js/mpstaticproduct.js                                   js/mpstaticproduct.js
 design/frontend/rwd/default/layout/mpstaticproduct.xml  app/design/frontend/rwd/default/layout/mpstaticproduct.xml
+design/frontend/rwd/default/layout/mpstaticproduct.xml  app/design/frontend/base/default/layout/mpstaticproduct.xml

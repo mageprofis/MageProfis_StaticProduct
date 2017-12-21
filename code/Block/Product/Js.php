@@ -9,7 +9,7 @@ extends Mage_Core_Block_Abstract
      */
     public function getAjaxUrl()
     {
-        return $this->getUrl('mpstaticproduct/ajax/index');
+        return $this->getUrl('mpstaticproduct/ajax/product');
     }
 
     /**
@@ -37,8 +37,7 @@ extends Mage_Core_Block_Abstract
      * @return string
      */
     protected function _toHtml() {
-        return '<script type="text/javascript" src="'.Mage::getBaseUrl('js').'mpstaticproduct.js"></script>'
-                .'<script type="text/javascript">'
+        return '<script type="text/javascript">'
                 . 'new Product.StaticCache({product_id: '.$this->getProductId().','
                 . 'url: "'.$this->getAjaxUrl().'"})'
                 . '</script>';

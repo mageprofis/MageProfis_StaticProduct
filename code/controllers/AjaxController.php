@@ -3,7 +3,7 @@
 class MageProfis_StaticProduct_AjaxController
 extends Mage_Core_Controller_Front_Action
 {
-    public function indexAction() {
+    public function productAction() {
         if ($this->getRequest()->isPost())
         {
             $productid = $this->getRequest()->getParam('product_id', false);
@@ -21,6 +21,20 @@ extends Mage_Core_Controller_Front_Action
             } else {
                 $this->norouteAction();
             }
+        }
+    }
+    
+    public function categoryAction() {
+        if ($this->getRequest()->isPost())
+        {
+            $categoryid = $this->getRequest()->getParam('category_id', false);
+            Mage::register('category_id', $categoryid);
+            $this->loadLayout($this->getFullActionName());
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('checkout/session');
+            $this->renderLayout();
+        } else {
+            $this->norouteAction();
         }
     }
 }

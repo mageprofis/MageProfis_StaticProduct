@@ -42,3 +42,44 @@ Product.StaticCache.prototype = {
         });
     }
 }
+
+if (typeof Category == 'undefined') {
+    var Category = {};
+}
+
+Category.StaticCache = Class.create();
+Category.StaticCache.prototype = {
+    initialize: function(config){
+        var category_id = parseInt(config.category_id, 10);
+        var messages = $('messages_category_view');
+        if (messages) {
+            messages.innerHTML = '';
+        }
+        new Ajax.Request(config.url, {
+            parameters: {category_id: category_id},
+            onSuccess: function(response) {
+                var category = response.responseText.evalJSON();
+                category.items.forEach(function(e) {
+                    if(e.content != '' && e.content != '&nbsp;') {
+                        var element = $$(e.class)[0];
+                        if(typeof element != 'undefined') {
+                            if (e.type === 'replace') {
+                                element.replace(e.content);
+                            } else if(e.type === 'attribute') {
+                                element.writeAttribute(e.attribute, e.content);
+                            } else {
+                                element.innerHTML = e.content;
+                            }
+                        }
+                    }
+                });
+                var key = $$('input[name="form_key"]');
+                if (key && product.info) {
+                    key.forEach(function(e) {
+                        e.replace(product.info);
+                    });
+                }
+            }
+        });
+    }
+}

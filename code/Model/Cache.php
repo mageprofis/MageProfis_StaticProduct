@@ -45,7 +45,7 @@ extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        if (!$this->getId())
+        if (!$this->getId() || $this->getUpdateCreatedAt())
         {
             $this->setData('created_at', date('Y-m-d H:i:s'));
         }

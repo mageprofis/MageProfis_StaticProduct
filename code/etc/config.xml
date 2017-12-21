@@ -2,7 +2,7 @@
 <config>
     <modules>
         <MageProfis_StaticProduct>
-            <version>1.0.0.0</version>
+            <version>1.0.0.1</version>
         </MageProfis_StaticProduct>
     </modules>
 
@@ -44,11 +44,38 @@
                 <observers>
                     <mpstaticproduct>
                         <type>singleton</type>
-                        <class>mpstaticproduct/observer</class>
+                        <class>mpstaticproduct/observer_product</class>
                         <method>onProductSaveAfter</method>
                     </mpstaticproduct>
                 </observers>
             </catalog_product_save_after>
+            <catalog_category_save_after>
+                <observers>
+                    <mpstaticproduct>
+                        <type>singleton</type>
+                        <class>mpstaticproduct/observer_category</class>
+                        <method>onSaveAfter</method>
+                    </mpstaticproduct>
+                </observers>
+            </catalog_category_save_after>
+            <adminhtml_cache_flush_system>
+                <observers>
+                    <mpstaticproduct>
+                        <type>singleton</type>
+                        <class>mpstaticproduct/observer</class>
+                        <method>cleanAll</method>
+                    </mpstaticproduct>
+                </observers>
+            </adminhtml_cache_flush_system>
+            <adminhtml_cache_flush_all>
+                <observers>
+                    <mpstaticproduct>
+                        <type>singleton</type>
+                        <class>mpstaticproduct/observer</class>
+                        <method>cleanAll</method>
+                    </mpstaticproduct>
+                </observers>
+            </adminhtml_cache_flush_all>
         </events>
     </global>
     <frontend>
@@ -60,15 +87,40 @@
             </updates>
         </layout>
         <events>
+            <controller_action_predispatch_catalog_product_view>
+                <observers>
+                    <mpstaticproduct>
+                        <class>mpstaticproduct/observer_product</class>
+                        <method>onProductViewPreDispatch</method>
+                    </mpstaticproduct>
+                </observers>
+            </controller_action_predispatch_catalog_product_view>
             <controller_action_postdispatch_catalog_product_view>
                 <observers>
                     <mpstaticproduct>
                         <type>singleton</type>
-                        <class>mpstaticproduct/observer</class>
+                        <class>mpstaticproduct/observer_product</class>
                         <method>onProductViewPostDispatch</method>
                     </mpstaticproduct>
                 </observers>
             </controller_action_postdispatch_catalog_product_view>
+            <controller_action_predispatch_catalog_category_view>
+                <observers>
+                    <mpstaticproduct>
+                        <class>mpstaticproduct/observer_category</class>
+                        <method>onViewPreDispatch</method>
+                    </mpstaticproduct>
+                </observers>
+            </controller_action_predispatch_catalog_category_view>
+            <controller_action_postdispatch_catalog_category_view>
+                <observers>
+                    <mpstaticproduct>
+                        <type>singleton</type>
+                        <class>mpstaticproduct/observer_category</class>
+                        <method>onViewPostDispatch</method>
+                    </mpstaticproduct>
+                </observers>
+            </controller_action_postdispatch_catalog_category_view>
         </events>
         <routers>
             <mpstaticproduct>
@@ -80,4 +132,47 @@
             </mpstaticproduct>
         </routers>
     </frontend>
+    
+    <crontab>
+        <jobs>
+            <mpstaticproduct_clean>
+                <schedule>
+                    <cron_expr>45 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>mpstaticproduct/cron_clean::run</model>
+                </run>
+            </mpstaticproduct_clean>
+        </jobs>
+    </crontab>
+    
+    <default>
+        <staticcache>
+            <general>
+                <mode>magento</mode>
+            </general>
+        </staticcache>
+    </default>
+    
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <staticcache>
+                                            <title>Static Cache</title>
+                                        </staticcache>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
 </config>
